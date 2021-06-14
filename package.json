@@ -1,6 +1,6 @@
 {
   "name": "simple-webhook-github",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple webhook for github",
   "main": "lib/Main.js",
   "types": "lib/Main.d.ts",

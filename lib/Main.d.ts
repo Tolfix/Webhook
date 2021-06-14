@@ -14,4 +14,5 @@ export default class SimpleWebhook {
      * @param cb Callback
      */
     on(Event: "ready" | "error", cb: (event: string) => void): void;
+    listen(response: any): void;
 }
