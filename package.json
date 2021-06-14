@@ -1,5 +1,5 @@
 {
-  "name": "simple-github-webhook",
+  "name": "simple-webhook-github",
   "version": "1.0.0",
   "description": "A simple webhook for github",
   "main": "lib/Main.js",

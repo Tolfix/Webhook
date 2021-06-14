@@ -21,7 +21,7 @@ export default class SimpleWebhook
         this.app.post(options?.endpoint ?? "/webhook", (req, res) => {
             const body: Body = req.body
             const html_url = body.repository.html_url;
-            this.GIT.pull(html_url);
+            //this.GIT.pull(html_url);
             return res.sendStatus(200);
         });
 
@@ -34,6 +34,11 @@ export default class SimpleWebhook
      * @param cb Callback
      */
     public on(Event: "ready" | "error", cb: (event: string) => void)
+    {
+        // Working on..
+    }
+
+    public listen(response: any)
     {
         // Working on..
     }
