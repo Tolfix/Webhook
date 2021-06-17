@@ -54,6 +54,9 @@ PullRequestReviewCommentSender
 export interface GithubEvents {
   push: PushBody
   fork: ForkBody
+
+
+  everything: PushBody | ForkBody
 }
 export interface Body
 {
