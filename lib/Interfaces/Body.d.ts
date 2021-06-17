@@ -35,6 +35,7 @@ declare type Senders = TeamSender | PushSender | ForkSender | WatchSender | Labe
 export interface GithubEvents {
     push: PushBody;
     fork: ForkBody;
+    everything: PushBody | ForkBody;
 }
 export interface Body {
     action: string;
