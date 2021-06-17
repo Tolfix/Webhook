@@ -17,9 +17,9 @@ export interface PushCommit {
     url: string;
     author: PushPushAuthor;
     committer: PushPushCommitter;
-    added: any[];
-    removed: any[];
-    modified: string[];
+    added: Array<any>;
+    removed: Array<any>;
+    modified: Array<string>;
 }
 export interface PushPushAuthor {
     name: string;

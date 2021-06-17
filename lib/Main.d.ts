@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import Body from "./Interfaces/Body";
+import { GithubEvents } from "./Interfaces/Body";
 import Options from "./Interfaces/Options";
 import event from "events";
 /**
@@ -14,15 +14,8 @@ export default class SimpleWebhook {
     constructor(Port: number, options?: Options);
     /**
      *
-     * @param Event The event to listen for
-     * @param cb Callback
-     * @deprecated
-     */
-    on(Event: "ready" | "error", cb: (event: string) => void): void;
-    /**
-     *
      * @param response
      * @description Listens on the endpoint and respons when github send something
      */
-    listen(response: (res: Body) => void): void;
+    listen<K extends keyof GithubEvents>(event: K, response: (res: GithubEvents[K]) => void): void;
 }
