@@ -12,7 +12,7 @@ import SimpleWebhook from "simple-webhook-github";
 const Port = 3000;
 const webhook = new SimpleWebhook(Port);
 
-webhook.listen(response => {
+webhook.listen("push", response => {
     // Do something
 })
 ```
@@ -24,7 +24,7 @@ const SimpleWebhook = require("simple-webhook-github");
 const Port = 3000;
 const webhook = new SimpleWebhook(Port);
 
-webhook.listen(response => {
+webhook.listen("push", response => {
     // Do something
 })
 ```
