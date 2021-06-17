@@ -1,7 +1,8 @@
 import Express from "express"
-import Body from "./Interfaces/Body";
+import { Body, ForkBody, GithubEvents, PushBody } from "./Interfaces/Body";
 import Options from "./Interfaces/Options";
 import event from "events";
+
 
 /**
  * @description Spins up a http server which listens on a POST request
@@ -23,7 +24,12 @@ export default class SimpleWebhook
         this.app.use(Express.urlencoded({ extended: true }));
         this.app.post(options?.endpoint ?? "/webhook", (req, res) => {
             const body: Body = req.body
-            this.Event.emit("listen", body);
+
+            // Reserve for later?
+            const event = req.headers["X-Github-Event"];
+
+            this.Event.emit("listen", {body,event});
+            
             return res.sendStatus(200);
         });
 
@@ -32,24 +38,16 @@ export default class SimpleWebhook
 
     /**
      * 
-     * @param Event The event to listen for
-     * @param cb Callback
-     * @deprecated
-     */
-    public on(Event: "ready" | "error", cb: (event: string) => void)
-    {
-        // Working on..
-    }
-
-    /**
-     * 
      * @param response 
      * @description Listens on the endpoint and respons when github send something
      */
-    public listen(response: (res: Body) => void)
+    public listen<K extends keyof GithubEvents>(event: K, response: (
+        res: GithubEvents[K]
+        ) => void)
     {
-        this.Event.on("listen", (data) => {
-            response(data)
+        this.Event.on("listen", (resp) => {
+            const data = resp.data;
+            return response(data);
         });
     }
 }
