@@ -15,7 +15,7 @@ import { MarketplacePurchaseSender } from "./MarketplacePurchase";
 import { MemberMember, MemberSender } from "./Member";
 import { MembershipSender } from "./Membership";
 import { MilestoneMilestone, MilestoneSender } from "./Milestone";
-import { Organization, OrganizationSender } from "./Organization";
+import { Organization, OrganizationInvitation, OrganizationMembership, OrganizationSender } from "./Organization";
 import { OrgBlockSender } from "./OrgBlock";
 import { PageBuildSender } from "./PageBuild";
 import { ProjectSender } from "./Project";
@@ -99,7 +99,7 @@ export interface GithubEvents {
   membership: MembershipBody;
   meta: MetaBody;
   milestone: MilestoneBody;
-
+  organization: OrganizationBody
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -111,7 +111,7 @@ export interface Body
   sender: Senders;
   repository: Repository;
   organization: Organization;
-  installation: Installation
+  installation: Installation;
 }
 
 export interface PushBody extends Body
@@ -372,4 +372,14 @@ export interface MilestoneBody extends Body
       from: string;
     }
   }
+}
+
+export interface OrganizationBody
+{
+  action: "deleted" | "renamed" | "member_added" | "member_removed" |  "member_invited";
+  invitation: OrganizationInvitation;
+  membership: OrganizationMembership;
+  organization: Organization;
+  installation: Installation;
+  sender: OrganizationSender;
 }
