@@ -33,6 +33,27 @@ import { Team, TeamSender } from "./Team";
 import { TeamAddSender } from "./TeamAdd";
 import { WatchSender } from "./Watch";
 
+export interface Sender
+{
+  login: string;
+  id: number;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
+}
+
 type Senders =
 TeamSender | PushSender | 
 ForkSender | WatchSender | 
@@ -76,6 +97,7 @@ export interface GithubEvents {
   marketplace_purchase: MarketplacePurchaseBody;
   member: MemberBody;
   membership: MembershipBody;
+  meta: MetaBody;
   
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -305,3 +327,21 @@ export interface MembershipBody extends Body
   team: Team;
   sender: TeamSender;
 }
+
+export interface MetaBody
+{
+  action: "deleted";
+  /**
+   * @description
+   * The id of the modified webhook.
+   */
+  hook_id: number;
+  /**
+   * @description
+   * The modified webhook. This will contain different keys based on the type of webhook it is: repository, organization, business, app, or GitHub Marketplace.
+   */
+  hook: Object;
+  repository: Repository;
+  organization: Organization;
+  sender: Sender;
+} 
