@@ -1,16 +1,16 @@
 import { CheckCheckRun, CheckCheckSuite, CheckRequestedAction } from "./Check";
 import { CommitComment, CommitCommentSender } from "./CommitComment";
-import { CreateSender } from "./Create";
+import { Create, CreateSender } from "./Create";
 import { DeleteSender } from "./Delete";
 import { DeployKey, Deployment, DeploymentSender } from "./Deployment";
 import { DeploymentStatus, DeploymentStatusSender } from "./DeploymentStatus";
 import { ForkForkee, ForkSender } from "./Fork";
-import { GollumSender } from "./Gollum";
-import { Installation, InstallationSender } from "./Installation";
-import { InstallationRepositoriesSender } from "./InstallationRepositories";
-import { IssueCommentSender } from "./IssueComment";
-import { IssuesSender } from "./Issues";
-import { LabelSender } from "./Label";
+import { GollumPage, GollumSender } from "./Gollum";
+import { Installation, InstallationInstallation, InstallationSender } from "./Installation";
+import { InstallationRepositories, InstallationRepositoriesRepositories_removed, InstallationRepositoriesSender } from "./InstallationRepositories";
+import { IssueComment, IssueCommentComment, IssueCommentSender } from "./IssueComment";
+import { IssuesIssue, IssuesLabel, IssuesSender, IssuesUser } from "./Issues";
+import { Label, LabelLabel, LabelSender } from "./Label";
 import { MarketplacePurchaseSender } from "./MarketplacePurchase";
 import { MemberSender } from "./Member";
 import { MembershipSender } from "./Membership";
@@ -54,7 +54,6 @@ PullRequestReviewCommentSender
 
 export interface GithubEvents {
   push: PushBody;
-  fork: ForkBody;
   check_run: CheckRunBody;
   check_suite: CheckSuiteBody;
   code_scanning_alert: CodeScanningAlertBody;
@@ -64,9 +63,22 @@ export interface GithubEvents {
   deploy_key: DeployKeyBody;
   deployment: DeploymentBody;
   deployment_status: DeploymentStatusBody;
+  discussion: DiscussionsBody;
+  discussion_comment: DiscussionsCommentBody;
+  fork: ForkBody;
+  github_app_authorization: GithubAppAuthorizationBody;
+  gollum: GollumBody;
+  installtion: InstallationBody;
+  installation_repositories: InstallationRepositoriesBody;
+  issue_comment: IssueCommentBody;
+  issues: IssuesBody;
+  label: LabelBody;
 
 
-  everything: PushBody | ForkBody;
+  everything: PushBody | ForkBody | CheckRunBody |
+  CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
+  CreateBody | DeleteBody | DeployKeyBody | DeploymentBody |
+  DeploymentStatusBody | DiscussionsBody;
 }
 export interface Body
 {
@@ -84,12 +96,6 @@ export interface PushBody extends Body
   commits: Array<PushCommit>
   pusher: PushPusher
 }
-
-export interface ForkBody extends Body
-{
-  forkee: ForkForkee
-}
-
 export interface CheckRunBody extends Body
 {
   action: "created" | "completed" | "rerequested" | "requested_action";
@@ -151,3 +157,110 @@ export interface DeploymentStatusBody extends Body
   deployment_status: DeploymentStatus;
   deployment: Deployment;
 }
+
+export interface DiscussionsBody extends Body
+{
+  action: "created" | "edited" | "deleted" | 
+  "pinned" | "unpinned" | "locked" | "unlocked" | 
+  "transferred" | "category_changed" | "answered" | "unanswered";
+  /**
+   * @link https://docs.github.com/en/graphql/guides/using-the-graphql-api-for-discussions#discussion
+   */
+  discussion: Object;
+}
+
+export interface DiscussionsCommentBody extends Body
+{
+  action: "created" | "edited" | "deleted";
+  /**
+   * @link https://docs.github.com/en/graphql/guides/using-the-graphql-api-for-discussions#discussioncomment
+   */
+  comment: Object;
+  /**
+   * @link https://docs.github.com/en/graphql/guides/using-the-graphql-api-for-discussions#discussion
+   */
+  discussion: Object;
+}
+
+export interface ForkBody extends Body
+{
+  forkee: ForkForkee
+}
+
+export interface GithubAppAuthorizationBody
+{
+  action: "revoked";
+  sender: Senders;
+}
+
+export interface GollumBody extends Body
+{
+  pages: Array<GollumPage>
+  sender: GollumSender;
+}
+
+export interface InstallationBody
+{
+  action: "created" | "deleted" | "suspend" | "unsuspend" | "new_permissions_accepted";
+  repositories: InstallationRepositoriesSender;
+  installtion: InstallationInstallation;
+  sender: InstallationSender;
+}
+
+export interface InstallationRepositoriesBody
+{
+  action: "added" | "removed";
+  repository_selection: "selected" | "all";
+  repositories_added: Array<InstallationRepositories>
+  repositories_removed: Array<InstallationRepositoriesRepositories_removed>
+  installtion: InstallationInstallation;
+  sender: InstallationSender;
+}
+
+export interface IssueCommentBody extends Body
+{
+  action: "created" | "edited" | "deleted";
+  changes: {
+    body: {
+      from: string;
+    }
+  }
+  issue: IssuesIssue;
+  comment: IssueCommentComment;
+  sender: IssueCommentSender;
+}
+
+export interface IssuesBody extends Body
+{
+  action: "opened" | "edited" | "deleted" | "pinned" | "unpinned" | "closed" |
+  "reopened" | "assigned" | "unassigned" | "labeled" |
+  "unlabeled" | "locked" | "unlocked" | 
+  "transferred" | "milestoned" | "demilestoned";
+  issue: IssuesIssue;
+  changes?: {
+    title: {
+      from: string;
+    },
+    body: {
+      from: string;
+    }
+    assignee?: IssuesUser;
+    label: IssuesLabel;
+    sender: IssuesSender;
+  } 
+}
+
+export interface LabelBody extends Body
+{
+  action: "created" | "edited" | "deleted";
+  label: LabelLabel;
+  changes?: {
+    name: {
+      from: string;
+    },
+    color: {
+      from: string
+    }
+  };
+}
+
