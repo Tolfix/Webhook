@@ -1,3 +1,4 @@
+import { CheckCheckRun, CheckCheckSuite, CheckRequestedAction } from "./Check";
 import { CommitCommentSender } from "./CommitComment";
 import { CreateSender } from "./Create";
 import { DeleteSender } from "./Delete";
@@ -52,15 +53,16 @@ InstallationRepositoriesSender | MarketplacePurchaseSender |
 PullRequestReviewCommentSender
 
 export interface GithubEvents {
-  push: PushBody
-  fork: ForkBody
+  push: PushBody;
+  fork: ForkBody;
+  check_run: CheckRunBody;
+  check_suite: CheckSuiteBody;
+  code_scanning_alert: CodeScanningAlertBody;
 
-
-  everything: PushBody | ForkBody
+  everything: PushBody | ForkBody;
 }
 export interface Body
 {
-  action: string;
   sender: Senders;
   repository: Repository;
   organization: Organization;
@@ -79,4 +81,25 @@ export interface PushBody extends Body
 export interface ForkBody extends Body
 {
   forkee: ForkForkee
+}
+
+export interface CheckRunBody extends Body
+{
+  action: "created" | "completed" | "rerequested" | "requested_action";
+  check_run: CheckCheckRun
+  requested_action: CheckRequestedAction
+}
+
+export interface CheckSuiteBody extends Body
+{
+  action: "created" | "completed" | "rerequested";
+  check_suite: CheckCheckSuite
+}
+
+export interface CodeScanningAlertBody extends Body
+{
+  action: "created" | "reopened_by_user" | "closed_by_user" | "fixed" | "appeared_in_branch" | "reopened";
+  alert: Object;
+  ref: string;
+  commit_oid: string;
 }
