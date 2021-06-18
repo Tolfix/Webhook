@@ -16,7 +16,7 @@ import { MemberMember, MemberSender } from "./Member";
 import { MembershipSender } from "./Membership";
 import { MilestoneMilestone, MilestoneSender } from "./Milestone";
 import { Organization, OrganizationInvitation, OrganizationMembership, OrganizationSender } from "./Organization";
-import { OrgBlockSender } from "./OrgBlock";
+import { OrgBlockBlocked_user, OrgBlockSender } from "./OrgBlock";
 import { PageBuildSender } from "./PageBuild";
 import { ProjectSender } from "./Project";
 import { ProjectCardSender } from "./ProjectCard";
@@ -100,6 +100,7 @@ export interface GithubEvents {
   meta: MetaBody;
   milestone: MilestoneBody;
   organization: OrganizationBody
+  org_block: OrgBlockBody;
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -390,4 +391,17 @@ export interface OrganizationBody
   organization: Organization;
   installation: Installation;
   sender: OrganizationSender;
+}
+
+export interface OrgBlockBody
+{
+  action: "blocked" | "unblocked";
+  /**
+   * @description
+   * Information about the user that was blocked or unblocked.
+   */
+  blocked_user: OrgBlockBlocked_user
+  organization: Organization;
+  installation: Installation;
+  sender: Sender;
 }
