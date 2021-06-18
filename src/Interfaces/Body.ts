@@ -377,7 +377,15 @@ export interface MilestoneBody extends Body
 export interface OrganizationBody
 {
   action: "deleted" | "renamed" | "member_added" | "member_removed" |  "member_invited";
-  invitation: OrganizationInvitation;
+  /**
+   * @description
+   * 	The invitation for the user or email if the action is `member_invited`.
+   */
+  invitation?: OrganizationInvitation;
+  /**
+   * @description
+   * The membership between the user and the organization. Not present when the action is `member_invited`.
+   */
   membership: OrganizationMembership;
   organization: Organization;
   installation: Installation;
