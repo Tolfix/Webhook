@@ -12,7 +12,7 @@ import { IssueComment, IssueCommentComment, IssueCommentSender } from "./IssueCo
 import { IssuesIssue, IssuesLabel, IssuesSender, IssuesUser } from "./Issues";
 import { Label, LabelLabel, LabelSender } from "./Label";
 import { MarketplacePurchaseSender } from "./MarketplacePurchase";
-import { MemberSender } from "./Member";
+import { MemberMember, MemberSender } from "./Member";
 import { MembershipSender } from "./Membership";
 import { MilestoneSender } from "./Milestone";
 import { Organization, OrganizationSender } from "./Organization";
@@ -29,7 +29,7 @@ import { PushCommit, PushPusher, PushSender } from "./Push";
 import { ReleaseSender } from "./Release";
 import { Repository, RepositorySender } from "./Repository";
 import { StatusSender } from "./Status";
-import { TeamSender } from "./Team";
+import { Team, TeamSender } from "./Team";
 import { TeamAddSender } from "./TeamAdd";
 import { WatchSender } from "./Watch";
 
@@ -73,8 +73,10 @@ export interface GithubEvents {
   issue_comment: IssueCommentBody;
   issues: IssuesBody;
   label: LabelBody;
-
-
+  marketplace_purchase: MarketplacePurchaseBody;
+  member: MemberBody;
+  membership: MembershipBody;
+  
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
   CreateBody | DeleteBody | DeployKeyBody | DeploymentBody |
@@ -264,3 +266,42 @@ export interface LabelBody extends Body
   };
 }
 
+export interface MarketplacePurchaseBody
+{
+  // Maybe do this on all interfaces?
+  /**
+   * @description
+   * Someone purchased a GitHub Marketplace plan. The change should take effect on the account immediately.
+   * 
+    `pending_change` - You will receive the pending_change event when someone has downgraded or cancelled a GitHub Marketplace plan to indicate a change will occur on the account.
+    The new plan or cancellation takes effect at the end of the billing cycle. The cancelled or changed event type will be sent when the billing cycle has ended and the cancellation or new plan should take effect.
+
+    `pending_change_cancelled` - Someone has cancelled a pending change. Pending changes include plan cancellations and downgrades that will take effect at the end of a billing cycle.
+
+    `changed` - Someone has upgraded or downgraded a GitHub Marketplace plan and the change should take effect on the account immediately.
+
+    `cancelled` - Someone cancelled a GitHub Marketplace plan and the last billing cycle has ended. The change should take effect on the account immediately.
+   */
+  action: "purchased" | "pending_change" | "pending_change_cancelled" | "changed" | "cancelled";
+}
+
+export interface MemberBody extends Body
+{
+  action: "added" | "removed" | "edited";
+  member: MemberMember;
+  changes?: {
+    old_permission: {
+      from: "string";
+    }
+  };
+  sender: MemberSender;
+}
+
+export interface MembershipBody extends Body
+{
+  action: "added" | "removed";
+  scope: string;
+  member: MemberMember;
+  team: Team;
+  sender: TeamSender;
+}
