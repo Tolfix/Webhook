@@ -125,6 +125,10 @@ export interface GithubEvents {
 }
 export interface Body extends SD, RP, ORG, INST {};
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push
+ */
 export interface PushBody extends Body
 {
   /**
@@ -153,6 +157,11 @@ export interface PushBody extends Body
    */
   pusher: PushPusher
 }
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#check_run
+ */
 export interface CheckRunBody extends Body
 {
   /**
@@ -178,6 +187,10 @@ export interface CheckRunBody extends Body
   requested_action: CheckRequestedAction
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#check_suite
+ */
 export interface CheckSuiteBody extends Body
 {
   /**
@@ -193,6 +206,10 @@ export interface CheckSuiteBody extends Body
   check_suite: CheckCheckSuite
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#code_scanning_alert
+ */
 export interface CodeScanningAlertBody extends Body
 {
   action: "created" | "reopened_by_user" | "closed_by_user" | "fixed" | "appeared_in_branch" | "reopened";
@@ -212,12 +229,20 @@ export interface CodeScanningAlertBody extends Body
   commit_oid: string;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#commit_comment
+ */
 export interface CommitCommetBody extends Body
 {
   action: "created";
   comment: CommitComment;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#create
+ */
 export interface CreateBody extends Body
 {
   /**
@@ -247,6 +272,10 @@ export interface CreateBody extends Body
   pusher_type: string;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#delete
+ */
 export interface DeleteBody extends Body
 {
   /**
@@ -266,6 +295,10 @@ export interface DeleteBody extends Body
   pusher_type: string;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#deploy_key
+ */
 export interface DeployKeyBody extends RP, ORG, SD
 {
   action: "created" | "deleted";
@@ -276,6 +309,10 @@ export interface DeployKeyBody extends RP, ORG, SD
   key: DeployKey
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#deployment
+ */
 export interface DeploymentBody extends Body
 {
   action: "created"
@@ -286,6 +323,10 @@ export interface DeploymentBody extends Body
   deployment: Deployment;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#deployment_status
+ */
 export interface DeploymentStatusBody extends Body
 {
   action: "created";
@@ -317,6 +358,10 @@ export interface DeploymentStatusBody extends Body
   deployment: Deployment;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#discussion
+ */
 export interface DiscussionsBody extends Body
 {
   action: "created" | "edited" | "deleted" | 
@@ -328,6 +373,10 @@ export interface DiscussionsBody extends Body
   discussion: Object;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#discussion_comment
+ */
 export interface DiscussionsCommentBody extends Body
 {
   action: "created" | "edited" | "deleted";
@@ -341,6 +390,10 @@ export interface DiscussionsCommentBody extends Body
   discussion: Object;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#fork
+ */
 export interface ForkBody extends Body
 {
   /**
@@ -350,17 +403,29 @@ export interface ForkBody extends Body
   forkee: ForkForkee
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#github_app_authorization
+ */
 export interface GithubAppAuthorizationBody
 {
   action: "revoked";
   sender: Sender;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#gollum
+ */
 export interface GollumBody extends Body
 {
   pages: Array<GollumPage>
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#installation
+ */
 export interface InstallationBody extends SD
 {
   /**
@@ -388,6 +453,10 @@ export interface InstallationBody extends SD
   installtion: InstallationInstallation;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#installation_repositories
+ */
 export interface InstallationRepositoriesBody extends SD
 {
   action: "added" | "removed";
@@ -412,6 +481,10 @@ export interface InstallationRepositoriesBody extends SD
   installtion: InstallationInstallation;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#issue_comment
+ */
 export interface IssueCommentBody extends Body
 {
   action: "created" | "edited" | "deleted";
@@ -436,6 +509,10 @@ export interface IssueCommentBody extends Body
   comment: IssueCommentComment;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#issues
+ */
 export interface IssuesBody extends Body
 {
   action: "opened" | "edited" | "deleted" | "pinned" | "unpinned" | "closed" |
@@ -471,6 +548,10 @@ export interface IssuesBody extends Body
   label?: IssuesLabel;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#label
+ */
 export interface LabelBody extends Body
 {
   action: "created" | "edited" | "deleted";
@@ -493,6 +574,10 @@ export interface LabelBody extends Body
   };
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#marketplace_purchase
+ */
 export interface MarketplacePurchaseBody
 {
   // Maybe do this on all interfaces?
@@ -512,6 +597,10 @@ export interface MarketplacePurchaseBody
   action: "purchased" | "pending_change" | "pending_change_cancelled" | "changed" | "cancelled";
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#member
+ */
 export interface MemberBody extends Body
 {
   /**
@@ -540,6 +629,10 @@ export interface MemberBody extends Body
   sender: MemberSender;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#membership
+ */
 export interface MembershipBody extends Body
 {
   action: "added" | "removed" | "edited";
@@ -560,6 +653,10 @@ export interface MembershipBody extends Body
   team: Team;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#meta
+ */
 export interface MetaBody
 {
   action: "deleted";
@@ -578,6 +675,10 @@ export interface MetaBody
   sender: Sender;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#milestone
+ */
 export interface MilestoneBody extends Body
 {
   action: "created" | "closed" | "opened" | "edited" | "deleted";
@@ -604,6 +705,10 @@ export interface MilestoneBody extends Body
   }
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#organizaion
+ */
 export interface OrganizationBody extends SD, ORG, INST
 {
   action: "deleted" | "renamed" | "member_added" | "member_removed" |  "member_invited";
@@ -619,6 +724,10 @@ export interface OrganizationBody extends SD, ORG, INST
   membership: OrganizationMembership;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#org_block
+ */
 export interface OrgBlockBody extends SD, ORG, INST
 {
   action: "blocked" | "unblocked";
@@ -629,6 +738,10 @@ export interface OrgBlockBody extends SD, ORG, INST
   blocked_user: OrgBlockBlocked_user
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#package
+ */
 export interface PackageBody extends RP, ORG, SD
 {
   action: "published" | "updated";
@@ -637,4 +750,4 @@ export interface PackageBody extends RP, ORG, SD
    * Information about the package.
    */
   package: Object;
-}
+  }
