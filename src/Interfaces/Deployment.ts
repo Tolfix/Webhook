@@ -151,3 +151,13 @@ export interface Deployment {
   repository: DeploymentRepository;
   sender: DeploymentSender;
 }
+
+export interface DeployKey {
+  id: number;
+  key: string;
+  url: string;
+  title: string;
+  verified: boolean;
+  created_at: string;
+  read_only: boolean;
+}

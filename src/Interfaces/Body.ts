@@ -1,9 +1,9 @@
 import { CheckCheckRun, CheckCheckSuite, CheckRequestedAction } from "./Check";
-import { CommitCommentSender } from "./CommitComment";
+import { CommitComment, CommitCommentSender } from "./CommitComment";
 import { CreateSender } from "./Create";
 import { DeleteSender } from "./Delete";
-import { DeploymentSender } from "./Deployment";
-import { DeploymentStatusSender } from "./DeploymentStatus";
+import { DeployKey, Deployment, DeploymentSender } from "./Deployment";
+import { DeploymentStatus, DeploymentStatusSender } from "./DeploymentStatus";
 import { ForkForkee, ForkSender } from "./Fork";
 import { GollumSender } from "./Gollum";
 import { Installation, InstallationSender } from "./Installation";
@@ -58,6 +58,13 @@ export interface GithubEvents {
   check_run: CheckRunBody;
   check_suite: CheckSuiteBody;
   code_scanning_alert: CodeScanningAlertBody;
+  commit_comment: CommitCommetBody;
+  create: CreateBody;
+  delete: DeleteBody;
+  deploy_key: DeployKeyBody;
+  deployment: DeploymentBody;
+  deployment_status: DeploymentStatusBody;
+
 
   everything: PushBody | ForkBody;
 }
@@ -102,4 +109,45 @@ export interface CodeScanningAlertBody extends Body
   alert: Object;
   ref: string;
   commit_oid: string;
+}
+
+export interface CommitCommetBody extends Body
+{
+  action: "created";
+  comment: CommitComment;
+}
+
+export interface CreateBody extends Body
+{
+  ref: string;
+  ref_type: string;
+  master_branch: string;
+  description: string;
+  pusher_type: string;
+}
+
+export interface DeleteBody extends Body
+{
+  ref: string;
+  ref_type: string;
+  pusher_type: string;
+}
+
+export interface DeployKeyBody extends Body
+{
+  action: "created" | "deleted";
+  key: DeployKey
+}
+
+export interface DeploymentBody extends Body
+{
+  action: "created";
+  deployment: Deployment;
+}
+
+export interface DeploymentStatusBody extends Body
+{
+  action: "created";
+  deployment_status: DeploymentStatus;
+  deployment: Deployment;
 }
