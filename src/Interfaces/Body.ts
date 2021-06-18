@@ -269,19 +269,51 @@ export interface DeleteBody extends Body
 export interface DeployKeyBody extends RP, ORG, SD
 {
   action: "created" | "deleted";
+  /**
+   * @description
+   * The [`deploy key`](https://docs.github.com/en/rest/reference/repos#get-a-deploy-key) resource.
+   */
   key: DeployKey
 }
 
 export interface DeploymentBody extends Body
 {
-  action: "created";
+  action: "created"
+  /**
+   * @description
+   * The [deployment](https://docs.github.com/en/rest/reference/repos#list-deployments).
+   */
   deployment: Deployment;
 }
 
 export interface DeploymentStatusBody extends Body
 {
   action: "created";
-  deployment_status: DeploymentStatus;
+  /**
+   * @description
+   * The [deployment status](https://docs.github.com/en/rest/reference/repos#list-deployment-statuses).
+   */
+  deployment_status: {
+    /**
+     * @description
+     * The new state. Can be `pending`, `success`, `failure`, or `error`.
+     */
+    state: string,
+    /**
+     * @description
+     * The optional link added to the status.
+     */
+    target_url: string,
+    /**
+     * @description
+     * The optional human-readable description added to the stat
+     */
+    description: string
+  };
+  /**
+   * @description
+   * The [deployment](https://docs.github.com/en/rest/reference/repos#list-deployments) that this status is associated with.
+   */
   deployment: Deployment;
 }
 
@@ -311,6 +343,10 @@ export interface DiscussionsCommentBody extends Body
 
 export interface ForkBody extends Body
 {
+  /**
+   * @description
+   * The created [`repository`](https://docs.github.com/en/rest/reference/repos#get-a-repository) resource.
+   */
   forkee: ForkForkee
 }
 
@@ -323,38 +359,81 @@ export interface GithubAppAuthorizationBody
 export interface GollumBody extends Body
 {
   pages: Array<GollumPage>
-  sender: GollumSender;
 }
 
-export interface InstallationBody
+export interface InstallationBody extends SD
 {
+  /**
+   * @description
+   * created - Someone installs a GitHub App.
+
+  `deleted` - Someone uninstalls a GitHub App
+
+  `suspend` - Someone suspends a GitHub App installation.
+
+  `unsuspend` - Someone unsuspends a GitHub App installation.
+
+  `new_permissions_accepted` - Someone accepts new permissions for a GitHub App installation. When a GitHub App owner requests new permissions, the person who installed the GitHub App must accept the new permissions request.
+   */
   action: "created" | "deleted" | "suspend" | "unsuspend" | "new_permissions_accepted";
+  /**
+   * @description
+   * An array of repository objects that the installation can access.
+   */
   repositories: InstallationRepositoriesSender;
+  /**
+   * @description
+   * The GitHub App installation.
+   */
   installtion: InstallationInstallation;
-  sender: InstallationSender;
 }
 
-export interface InstallationRepositoriesBody
+export interface InstallationRepositoriesBody extends SD
 {
   action: "added" | "removed";
+  /**
+   * @description
+   * 	The choice of repositories the installation is on. Can be either `selected` or `all`.
+   */
   repository_selection: "selected" | "all";
+  /**
+   * @description
+   * An array of repository objects, which were added to the installation.
+   */
   repositories_added: Array<InstallationRepositories>
+  /**
+   * @description
+   * An array of repository objects, which were removed from the installation.
+   */
   repositories_removed: Array<InstallationRepositoriesRepositories_removed>
+  /**
+   * @description
+   */
   installtion: InstallationInstallation;
-  sender: InstallationSender;
 }
 
 export interface IssueCommentBody extends Body
 {
   action: "created" | "edited" | "deleted";
+  /**
+   * @description
+   * The changes to the comment if the action was `edited`.
+   */
   changes: {
     body: {
       from: string;
     }
   }
+  /**
+   * @description
+   * The [issue](https://docs.github.com/en/rest/reference/issues) the comment belongs to.
+   */
   issue: IssuesIssue;
+  /**
+   * @description
+   * The [comment](https://docs.github.com/en/rest/reference/issues#comments) itself.
+   */
   comment: IssueCommentComment;
-  sender: IssueCommentSender;
 }
 
 export interface IssuesBody extends Body
@@ -363,7 +442,15 @@ export interface IssuesBody extends Body
   "reopened" | "assigned" | "unassigned" | "labeled" |
   "unlabeled" | "locked" | "unlocked" | 
   "transferred" | "milestoned" | "demilestoned";
+  /**
+   * @description
+   * The [issue](https://docs.github.com/en/rest/reference/issues) the comment belongs to.
+   */  
   issue: IssuesIssue;
+  /**
+   * @description
+   * The changes to the comment if the action was `edited`.
+   */  
   changes?: {
     title: {
       from: string;
@@ -371,16 +458,31 @@ export interface IssuesBody extends Body
     body: {
       from: string;
     }
-    assignee?: IssuesUser;
-    label: IssuesLabel;
-    sender: IssuesSender;
   } 
+  /**
+   * @description
+   * The optional user who was assigned or unassigned from the issue.
+   */
+  assignee?: IssuesUser;
+  /**
+  * @description
+  * The optional label that was added or removed from the issue.
+  */
+  label?: IssuesLabel;
 }
 
 export interface LabelBody extends Body
 {
   action: "created" | "edited" | "deleted";
+  /**
+   * @description
+   * The label that was added.
+   */
   label: LabelLabel;
+  /**
+   * @description
+   * The changes to the comment if the action was `edited`.
+   */  
   changes?: {
     name: {
       from: string;
@@ -412,8 +514,24 @@ export interface MarketplacePurchaseBody
 
 export interface MemberBody extends Body
 {
+  /**
+   * @description
+   * `added` - A user accepts an invitation to a repository.
+
+  `removed` - A user is removed as a collaborator in a repository.
+
+  `edited` - A user's collaborator permissions have changed.
+   */ 
   action: "added" | "removed" | "edited";
+  /**
+   * @description
+   * The user that was added.
+   */
   member: MemberMember;
+  /**
+   * @description
+   * The changes to the comment if the action was `edited`.
+   */  
   changes?: {
     old_permission: {
       from: "string";
@@ -424,11 +542,22 @@ export interface MemberBody extends Body
 
 export interface MembershipBody extends Body
 {
-  action: "added" | "removed";
+  action: "added" | "removed" | "edited";
+  /**
+   * @description
+   * The scope of the membership. Currently, can only be team.
+   */
   scope: string;
+  /**
+   * @description
+   * The [user](https://docs.github.com/en/rest/reference/users) that was added or removed.
+   */
   member: MemberMember;
+  /**
+   * @description
+   * The [team](https://docs.github.com/en/rest/reference/teams) for the membership.
+   */
   team: Team;
-  sender: TeamSender;
 }
 
 export interface MetaBody
@@ -475,7 +604,7 @@ export interface MilestoneBody extends Body
   }
 }
 
-export interface OrganizationBody
+export interface OrganizationBody extends SD, ORG, INST
 {
   action: "deleted" | "renamed" | "member_added" | "member_removed" |  "member_invited";
   /**
@@ -488,12 +617,9 @@ export interface OrganizationBody
    * The membership between the user and the organization. Not present when the action is `member_invited`.
    */
   membership: OrganizationMembership;
-  organization: Organization;
-  installation: Installation;
-  sender: OrganizationSender;
 }
 
-export interface OrgBlockBody
+export interface OrgBlockBody extends SD, ORG, INST
 {
   action: "blocked" | "unblocked";
   /**
@@ -501,9 +627,6 @@ export interface OrgBlockBody
    * Information about the user that was blocked or unblocked.
    */
   blocked_user: OrgBlockBlocked_user
-  organization: Organization;
-  installation: Installation;
-  sender: Sender;
 }
 
 export interface PackageBody extends RP, ORG, SD
