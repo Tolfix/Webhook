@@ -14,7 +14,7 @@ import { Label, LabelLabel, LabelSender } from "./Label";
 import { MarketplacePurchaseSender } from "./MarketplacePurchase";
 import { MemberMember, MemberSender } from "./Member";
 import { MembershipSender } from "./Membership";
-import { MilestoneSender } from "./Milestone";
+import { MilestoneMilestone, MilestoneSender } from "./Milestone";
 import { Organization, OrganizationSender } from "./Organization";
 import { OrgBlockSender } from "./OrgBlock";
 import { PageBuildSender } from "./PageBuild";
@@ -98,7 +98,9 @@ export interface GithubEvents {
   member: MemberBody;
   membership: MembershipBody;
   meta: MetaBody;
-  
+  milestone: MilestoneBody;
+
+
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
   CreateBody | DeleteBody | DeployKeyBody | DeploymentBody |
@@ -344,4 +346,30 @@ export interface MetaBody
   repository: Repository;
   organization: Organization;
   sender: Sender;
-} 
+}
+
+export interface MilestoneBody extends Body
+{
+  action: "created" | "closed" | "opened" | "edited" | "deleted";
+  /**
+   * @description
+   * The milestone itself.
+   */
+  milestone: MilestoneMilestone;
+
+  /**
+   * @description
+   * The changes to the milestone if the action was `edited`.
+   */
+  changes?: {
+    description: {
+      from: string;
+    },
+    due_on: {
+      from: string;
+    },
+    title: {
+      from: string;
+    }
+  }
+}
