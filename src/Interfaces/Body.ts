@@ -17,7 +17,7 @@ import { MembershipSender } from "./Membership";
 import { MilestoneMilestone, MilestoneSender } from "./Milestone";
 import { Organization, OrganizationInvitation, OrganizationMembership, OrganizationSender } from "./Organization";
 import { OrgBlockBlocked_user, OrgBlockSender } from "./OrgBlock";
-import { PageBuildSender } from "./PageBuild";
+import { PageBuildBuild, PageBuildSender } from "./PageBuild";
 import { ProjectSender } from "./Project";
 import { ProjectCardSender } from "./ProjectCard";
 import { ProjectColumnSender } from "./ProjectColumn";
@@ -117,6 +117,7 @@ export interface GithubEvents {
   organization: OrganizationBody
   org_block: OrgBlockBody;
   package: PackageBody;
+  page_build: PageBuildBody;
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -750,4 +751,18 @@ export interface PackageBody extends RP, ORG, SD
    * Information about the package.
    */
   package: Object;
-  }
+}
+
+export interface PageBuildBody extends Body
+{
+  /**
+   * @description
+   * The unique identifier of the page build.
+   */
+  id: number;
+  /**
+   * @description
+   * The [List GitHub Pages builds](https://docs.github.com/en/rest/reference/repos#list-github-pages-builds) itself.
+   */
+  build: PageBuildBuild
+}

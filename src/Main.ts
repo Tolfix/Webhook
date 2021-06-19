@@ -28,7 +28,6 @@ export default class SimpleWebhook
         this.app.use(Express.urlencoded({ extended: true }));
         this.app.post(options?.endpoint ?? "/webhook", (req, res) => {
             const body: Body = req.body
-            // Reserve for later?
             const event = req.headers["x-github-event"];
 
             this.Event.emit("listen", {body,event});
