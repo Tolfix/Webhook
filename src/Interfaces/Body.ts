@@ -135,6 +135,7 @@ export interface GithubEvents {
   repository_dispatch: RepositoryDispatchBody;
   repository: RepositoryBody;
   repository_import: RepositoryImportBody;
+  repository_vulnerability_alert: RepositoryVulnerabilityAlertBody;
 
   /**
    * @description
@@ -151,7 +152,7 @@ export interface GithubEvents {
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
-  RepositoryBody | RepositoryImportBody;
+  RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1110,7 +1111,35 @@ export interface RepositoryBody extends Body
   "privatized"
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_import
+ */
 export interface RepositoryImportBody extends SD, ORG, SD
 {
   status: "success" | "cancelled" | "failure";
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_vulnerability_alert
+ */
+ export interface RepositoryVulnerabilityAlertBody extends SD, ORG, SD
+ {
+   status: "create" | "dismiss" | "resolve";
+   /**
+    * @description
+    * 
+    */
+   alert: {
+    id:                    number;
+    affected_range:        string;
+    affected_package_name: string;
+    fixed_in:              string;
+    external_reference:    string;
+    external_identifier:   string;
+    severity:              string;
+    ghsa_id:               string;
+    created_at:            string;
+  };
 }
