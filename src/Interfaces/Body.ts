@@ -146,6 +146,7 @@ export interface GithubEvents {
   team_add: TeamAddBody;
   watch: WatchBody;
   workflow_dispatch: WorkflowDispatchBody;
+  workflow_run: WorkflowRunBody;
 
   /**
    * @description
@@ -164,7 +165,7 @@ export interface GithubEvents {
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
   SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody |
-  StatusBody | TeamBody | TeamAddBody | WatchBody | WorkflowDispatchBody;
+  StatusBody | TeamBody | TeamAddBody | WatchBody | WorkflowDispatchBody | WorkflowRunBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1323,5 +1324,16 @@ export interface WatchBody extends Body
  * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#workflow_dispatch
  * @description
  * This event occurs when someone triggers a workflow run on GitHub or sends a `POST` request to the "[Create a workflow dispatch event](https://docs.github.com/en/rest/reference/actions/#create-a-workflow-dispatch-event)" endpoint. For more information, see "[Events that trigger workflows.](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch)"
+ * TODO Find more about this?
  */
 export interface WorkflowDispatchBody {};
+
+export interface WorkflowRunBody extends ORG, RP, SD
+{
+  action: "requested" | "completed";
+  /**
+   * @description
+   * he workflow run. Many workflow_run keys, such as head_branch, conclusion, and pull_requests are the same as those in a check_suite object.
+   */
+  workflow_run: Object;
+}
