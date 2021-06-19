@@ -19,7 +19,7 @@ import { Organization, OrganizationInvitation, OrganizationMembership, Organizat
 import { OrgBlockBlocked_user, OrgBlockSender } from "./OrgBlock";
 import { PageBuildBuild, PageBuildSender } from "./PageBuild";
 import { ProjectSender } from "./Project";
-import { ProjectCardSender } from "./ProjectCard";
+import { ProjectCard, ProjectCardProject_card, ProjectCardSender } from "./ProjectCard";
 import { ProjectColumnSender } from "./ProjectColumn";
 import { PublicSender } from "./Public";
 import { PullRequestSender } from "./PullRequest";
@@ -119,6 +119,7 @@ export interface GithubEvents {
   package: PackageBody;
   page_build: PageBuildBody;
   ping: PingBody;
+  project_card: ProjectCardBody;
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -128,7 +129,7 @@ export interface GithubEvents {
   InstallationRepositoriesBody | IssueCommentBody | IssuesBody |
   LabelBody | MarketplacePurchaseBody | MemberBody | MembershipBody |
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
-  PackageBody | PageBuildBody | PingBody;
+  PackageBody | PageBuildBody | PingBody | ProjectCardBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -798,4 +799,29 @@ export interface PingBody extends RP, ORG, SD
    * The [webhook configuration](https://docs.github.com/en/rest/reference/repos#get-a-repository-webhook).
    */
   hook: Object;
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#project_card
+ */
+export interface ProjectCardBody extends Body
+{
+  action: "created" | "edited" | "moved" | "converted" | "deleted";
+  /**
+   * @description
+   * The changes to the project card if the action was edited or converted.
+   */
+  changes: {
+    note: {
+      from: string
+    }
+  };
+
+  /**
+   * @description
+   * The id of the card that this card now follows if the action was "moved". Will be `null` if it is the first card in a column
+   */
+  after_id: number;
+  project_card: ProjectCardProject_card;
 }
