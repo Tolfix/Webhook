@@ -54,6 +54,11 @@ export interface Sender
   site_admin: boolean;
 }
 
+export interface From
+{
+  from: string;
+}
+
 export interface RP
 {
   /**
@@ -509,10 +514,8 @@ export interface IssueCommentBody extends Body
    * @description
    * The changes to the comment if the action was `edited`.
    */
-  changes: {
-    body: {
-      from: string;
-    }
+  changes?: {
+    body: From;
   }
   /**
    * @description
@@ -546,12 +549,8 @@ export interface IssuesBody extends Body
    * The changes to the comment if the action was `edited`.
    */  
   changes?: {
-    title: {
-      from: string;
-    },
-    body: {
-      from: string;
-    }
+    title: From;
+    body: From;
   } 
   /**
    * @description
@@ -582,12 +581,8 @@ export interface LabelBody extends Body
    * The changes to the comment if the action was `edited`.
    */  
   changes?: {
-    name: {
-      from: string;
-    },
-    color: {
-      from: string
-    }
+    name: From;
+    color: From;
   };
 }
 
@@ -639,9 +634,7 @@ export interface MemberBody extends Body
    * The changes to the comment if the action was `edited`.
    */  
   changes?: {
-    old_permission: {
-      from: "string";
-    }
+    old_permission: From;
   };
   sender: MemberSender;
 }
@@ -710,15 +703,9 @@ export interface MilestoneBody extends Body
    * The changes to the milestone if the action was `edited`.
    */
   changes?: {
-    description: {
-      from: string;
-    },
-    due_on: {
-      from: string;
-    },
-    title: {
-      from: string;
-    }
+    description: From;
+    due_on: From;
+    title: From;
   }
 }
 
@@ -821,10 +808,8 @@ export interface ProjectCardBody extends Body
    * @description
    * The changes to the project card if the action was edited or converted.
    */
-  changes: {
-    note: {
-      from: string
-    }
+  changes?: {
+    note: From;
   };
 
   /**
@@ -850,10 +835,8 @@ export interface ProjectColumnBody extends Body
    * @description
    * The changes to the project column if the action was `edited`.
    */
-  changes: {
-    name: {
-      from: string;
-    },
+  changes?: {
+    name: From;
   };
   /**
    * @description
@@ -878,13 +861,9 @@ export interface ProjectBody extends Body
    * @description
    * The changes to the project if the action was `edited`.
    */
-  changes: {
-    name: {
-      from: string;
-    }
-    body: {
-      from: string;
-    }
+  changes?: {
+    name: From;
+    body: From;
   };
   /**
    * @description
@@ -958,13 +937,9 @@ export interface PullRequestBody extends Body
    * @description
    * The changes to the comment if the action was `edited`.
    */
-  changes: {
-    title: {
-      from: string;
-    },
-    body: {
-      from: string;
-    }
+  changes?: {
+    title: From;
+    body: From;
   };
 
   /**

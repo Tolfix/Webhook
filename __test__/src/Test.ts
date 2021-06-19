@@ -3,8 +3,8 @@ import express from "express";
 
 const webhook = new Webhook(3000);
 
-webhook.listen("package", (body) => {
-    console.log(body);
+webhook.listen("project", (body) => {
+    console.log(body.changes?.body.from);
 });
 
 const app = express();
