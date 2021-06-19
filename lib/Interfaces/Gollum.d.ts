@@ -1,9 +1,29 @@
 export interface GollumPage {
+    /**
+     * @description
+     * The name of the page.
+     */
     page_name: string;
+    /**
+     * @description
+     * The current page title.
+     */
     title: string;
     summary?: any;
+    /**
+     * @description
+     * The action that was performed on the page. Can be `created` or `edited`.
+     */
     action: string;
+    /**
+     * @description
+     * The latest commit SHA of the page.
+     */
     sha: string;
+    /**
+     * @description
+     * Points to the HTML wiki page.
+     */
     html_url: string;
 }
 export interface GollumOwner {

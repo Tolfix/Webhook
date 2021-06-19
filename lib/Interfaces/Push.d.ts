@@ -9,21 +9,67 @@ export interface PushPushCommitter {
     username: string;
 }
 export interface PushCommit {
+    /**
+     * @description
+     * The SHA of the commit.
+     */
     id: string;
-    tree_id: string;
-    distinct: boolean;
-    message: string;
+    /**
+     * @description
+     * The ISO 8601 timestamp of the commit.
+     */
     timestamp: string;
-    url: string;
+    /**
+     * @description
+     * The commit message.
+     */
+    message: string;
+    /**
+     * @description
+     * The git author of the commit.
+     */
     author: PushPushAuthor;
-    committer: PushPushCommitter;
+    /**
+     * @description
+     * URL that points to the commit API resource.
+     */
+    url: string;
+    /**
+     * @description
+     * Whether this commit is distinct from any that have been pushed before.
+     */
+    distinct: boolean;
+    /**
+     * @description
+     * An array of files added in the commit.
+     */
     added: Array<any>;
-    removed: Array<any>;
+    /**
+     * @description
+     * An array of files modified by the commit.
+     */
     modified: Array<string>;
+    /**
+     * @description
+     * An array of files removed in the commit.
+     */
+    removed: Array<any>;
 }
 export interface PushPushAuthor {
+    /**
+     * @description
+     * The git author's name.
+     */
     name: string;
+    /**
+     * @description
+     * The git author's email address.
+     */
     email: string;
+    /**
+     * @description
+     * The git author's username.
+     */
     username: string;
 }
 export interface PushPushCommitter {
