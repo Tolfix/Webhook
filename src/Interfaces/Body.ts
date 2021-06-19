@@ -141,6 +141,7 @@ export interface GithubEvents {
   security_advisory: SecurityAdvisoryBody;
   sponsorship: SponsorshipBody;
   star: StarBody;
+  status: StatusBody;
 
   /**
    * @description
@@ -158,7 +159,8 @@ export interface GithubEvents {
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
-  SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody;
+  SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody |
+  StatusBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1210,6 +1212,10 @@ export interface SponsorshipBody extends SD
   }
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#star
+ */
 export interface StarBody extends RP, ORG, SD
 {
   action: "created" | "deleted";
@@ -1218,4 +1224,38 @@ export interface StarBody extends RP, ORG, SD
    * 	The time the star was created. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Will be `null` for the `deleted` action.
    */
   starred_at: string;
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#status
+ */
+export interface StatusBody extends Body
+{
+  /**
+   * @description
+   * The unique identifier of the status.
+   */
+  id: number;
+  /**
+   * @description
+   * The Commit SHA.
+   */
+  sha: string;
+  state: "pending" | "success" | "failure" | "error";
+  /**
+   * @description
+   * The optional human-readable description added to the status.
+   */
+  description: string;
+  /**
+   * @description
+   * 	The optional link added to the status.
+   */
+  target_url: string;
+  /**
+   * @description
+   * An array of branch objects containing the status' SHA. Each branch contains the given SHA, but the SHA may or may not be the head of the branch. The array includes a maximum of 10 branches.
+   */
+  branches: Array<any>
 }
