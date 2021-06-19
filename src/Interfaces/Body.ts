@@ -121,6 +121,7 @@ export interface GithubEvents {
   ping: PingBody;
   project_card: ProjectCardBody;
   project_column: ProjectColumnBody;
+  project: ProjectBody;
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -131,7 +132,7 @@ export interface GithubEvents {
   LabelBody | MarketplacePurchaseBody | MemberBody | MembershipBody |
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
-  ProjectColumnBody;
+  ProjectColumnBody | ProjectBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -858,4 +859,30 @@ export interface ProjectColumnBody extends Body
    * The [project column](https://docs.github.com/en/rest/reference/projects#columns) itself.
    */
   project_card: ProjectCardProject_card;
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#project
+ */
+export interface ProjectBody extends Body
+{
+  action: "created" | "edited" | "closed" | "reopened" | "deleted";
+  /**
+   * @description
+   * The changes to the project if the action was `edited`.
+   */
+  changes: {
+    name: {
+      from: string;
+    }
+    body: {
+      from: string;
+    }
+  };
+  /**
+   * @description
+   * The [project](https://docs.github.com/en/rest/reference/projects) itself.
+   */
+  project: ProjectCardProject_card
 }
