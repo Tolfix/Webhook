@@ -118,11 +118,17 @@ export interface GithubEvents {
   org_block: OrgBlockBody;
   package: PackageBody;
   page_build: PageBuildBody;
+  ping: PingBody;
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
   CreateBody | DeleteBody | DeployKeyBody | DeploymentBody |
-  DeploymentStatusBody | DiscussionsBody;
+  DeploymentStatusBody | DiscussionsBody | DiscussionsCommentBody |
+  GithubAppAuthorizationBody | GollumBody | InstallationBody | 
+  InstallationRepositoriesBody | IssueCommentBody | IssuesBody |
+  LabelBody | MarketplacePurchaseBody | MemberBody | MembershipBody |
+  MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
+  PackageBody | PageBuildBody | PingBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -753,6 +759,10 @@ export interface PackageBody extends RP, ORG, SD
   package: Object;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#page_build
+ */
 export interface PageBuildBody extends Body
 {
   /**
@@ -765,4 +775,27 @@ export interface PageBuildBody extends Body
    * The [List GitHub Pages builds](https://docs.github.com/en/rest/reference/repos#list-github-pages-builds) itself.
    */
   build: PageBuildBuild
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#ping
+ */
+export interface PingBody extends RP, ORG, SD
+{
+  /**
+   * @description
+   * Random string of GitHub `zen`.
+   */
+  zen: string;
+  /**
+   * @description
+   * The ID of the webhook that triggered the `ping`.
+   */
+  hook_id: number;
+  /**
+   * @description
+   * The [webhook configuration](https://docs.github.com/en/rest/reference/repos#get-a-repository-webhook).
+   */
+  hook: Object;
 }
