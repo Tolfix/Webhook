@@ -136,6 +136,7 @@ export interface GithubEvents {
   repository: RepositoryBody;
   repository_import: RepositoryImportBody;
   repository_vulnerability_alert: RepositoryVulnerabilityAlertBody;
+  secret_scanning_alert: SecretScanningAlertBody;
 
   /**
    * @description
@@ -152,7 +153,8 @@ export interface GithubEvents {
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
-  RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody;
+  RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
+  SecretScanningAlertBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1142,4 +1144,25 @@ export interface RepositoryImportBody extends SD, ORG, SD
     ghsa_id:               string;
     created_at:            string;
   };
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#secret_scanning_alert
+ */
+export interface SecretScanningAlertBody extends Body
+{
+  action: "created" | "resolved" | "reopened";
+  alert: {
+    number: number,
+    secret_type: string,
+    resolution: null | unknown,
+    resolved_by: null | unknown,
+    resolved_at: null | unknown
+  },
+  /**
+   * @description
+   * 	If the action is resolved or reopened, the sender object will be the user that triggered the event. The sender object is empty for all other actions.
+   */
+  sender: Sender;
 }
