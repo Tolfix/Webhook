@@ -143,6 +143,7 @@ export interface GithubEvents {
   star: StarBody;
   status: StatusBody;
   team: TeamBody;
+  team_add: TeamAddBody;
 
   /**
    * @description
@@ -161,7 +162,7 @@ export interface GithubEvents {
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
   SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody |
-  StatusBody | TeamBody;
+  StatusBody | TeamBody | TeamAddBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1261,6 +1262,10 @@ export interface StatusBody extends Body
   branches: Array<any>
 }
 
+/**
+ * @description
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#team
+ */
 export interface TeamBody extends RP, ORG, SD
 {
   action: "created" | "deleted" | "edited" | "added_to_repository" | "removed_from_repository";
@@ -1287,4 +1292,17 @@ export interface TeamBody extends RP, ORG, SD
       }
     }
   }
+}
+
+/**
+ * @description
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#team_add
+ */
+export interface TeamAddBody extends Body
+{
+  /**
+   * @description
+   * The [team](https://docs.github.com/en/rest/reference/teams) that was modified. Note: Older events may not include this in the payload.
+   */
+  team: TeamTeam;
 }
