@@ -145,6 +145,7 @@ export interface GithubEvents {
   team: TeamBody;
   team_add: TeamAddBody;
   watch: WatchBody;
+  workflow_dispatch: WorkflowDispatchBody;
 
   /**
    * @description
@@ -163,7 +164,7 @@ export interface GithubEvents {
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
   SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody |
-  StatusBody | TeamBody | TeamAddBody | WatchBody;
+  StatusBody | TeamBody | TeamAddBody | WatchBody | WorkflowDispatchBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1308,7 +1309,19 @@ export interface TeamAddBody extends Body
   team: TeamTeam;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#watch
+ */
 export interface WatchBody extends Body
 {
   action: "started";
 }
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#workflow_dispatch
+ * @description
+ * This event occurs when someone triggers a workflow run on GitHub or sends a `POST` request to the "[Create a workflow dispatch event](https://docs.github.com/en/rest/reference/actions/#create-a-workflow-dispatch-event)" endpoint. For more information, see "[Events that trigger workflows.](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch)"
+ */
+export interface WorkflowDispatchBody {};
