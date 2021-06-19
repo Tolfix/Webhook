@@ -134,6 +134,7 @@ export interface GithubEvents {
   release: ReleaseBody;
   repository_dispatch: RepositoryDispatchBody;
   repository: RepositoryBody;
+  repository_import: RepositoryImportBody;
 
   /**
    * @description
@@ -150,7 +151,7 @@ export interface GithubEvents {
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
-  RepositoryBody;
+  RepositoryBody | RepositoryImportBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1107,4 +1108,9 @@ export interface RepositoryBody extends Body
   "transferred" |
   "publicized" |
   "privatized"
+}
+
+export interface RepositoryImportBody extends SD, ORG, SD
+{
+  status: "success" | "cancelled" | "failure";
 }
