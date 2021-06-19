@@ -22,7 +22,7 @@ import { ProjectSender } from "./Project";
 import { ProjectCard, ProjectCardProject_card, ProjectCardSender } from "./ProjectCard";
 import { ProjectColumnSender } from "./ProjectColumn";
 import { PublicSender } from "./Public";
-import { PullRequestSender } from "./PullRequest";
+import { PullRequestPull_request, PullRequestSender } from "./PullRequest";
 import { PullRequestReviewSender } from "./PullRequestReview";
 import { PullRequestReviewCommentSender } from "./PullRequestReviewComment";
 import { PushCommit, PushPusher, PushSender } from "./Push";
@@ -123,7 +123,12 @@ export interface GithubEvents {
   project_column: ProjectColumnBody;
   project: ProjectBody;
   public: PublicBody;
+  pull_request: PullRequestBody;
 
+  /**
+   * @description
+   * Everything you can wish for
+   */
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
   CreateBody | DeleteBody | DeployKeyBody | DeploymentBody |
@@ -133,7 +138,7 @@ export interface GithubEvents {
   LabelBody | MarketplacePurchaseBody | MemberBody | MembershipBody |
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
-  ProjectColumnBody | ProjectBody | PublicBody;
+  ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -895,3 +900,76 @@ export interface ProjectBody extends Body
  * When a private repository is made public. Without a doubt: the best GitHub event.
  */
 export interface PublicBody extends Body {};
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
+ */
+export interface PullRequestBody extends Body
+{
+  /**
+   * @description
+   * `assigned`
+
+  `auto_merge_disabled`
+
+  `auto_merge_enabled`
+
+  `closed`: If the action is closed and the merged key is false, the pull request was closed with unmerged commits. If the action is closed and the merged key is true, the pull request was merged.
+
+  `converted_to_draft`
+
+  `edited`
+
+  `labeled`
+
+  `locked`
+
+  `opened`
+
+  `ready_for_review`
+
+  `reopened`
+
+  `review_request_removed`
+
+  `review_requested`
+
+  `synchronize`: Triggered when a pull request's tracking branch is synchronized with the source branch for the pull request, which happens when the source branch is updated.
+
+  `unassigned`
+
+  `unlabeled`
+
+  `unlocked`
+   */
+  action: "assigned" | "auto_merge_disabled" |
+  "auto_merge_enabled" | "closed" | "converted_to_draft" |
+  "edited" | "labeled" | "locked" | "opened" |
+  "ready_for_review" | "reopened" | "review_request_removed" |
+  "review_requested" | "synchronize" | "unassigned" | "unlabeled" | "unlocked";
+
+  /**
+   * @description
+   * The pull request number.
+   */
+  number: number;
+  /**
+   * @description
+   * The changes to the comment if the action was `edited`.
+   */
+  changes: {
+    title: {
+      from: string;
+    },
+    body: {
+      from: string;
+    }
+  };
+
+  /**
+   * @description
+   * The [pull request](https://docs.github.com/en/rest/reference/pulls) itself.
+   */
+  pull_request: PullRequestPull_request;
+}
