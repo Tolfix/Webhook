@@ -23,8 +23,8 @@ import { ProjectCard, ProjectCardProject_card, ProjectCardSender } from "./Proje
 import { ProjectColumnSender } from "./ProjectColumn";
 import { PublicSender } from "./Public";
 import { PullRequestPull_request, PullRequestSender } from "./PullRequest";
-import { PullRequestReviewSender } from "./PullRequestReview";
-import { PullRequestReviewCommentSender } from "./PullRequestReviewComment";
+import { PullRequestReview, PullRequestReviewReview, PullRequestReviewSender } from "./PullRequestReview";
+import { PullRequestReviewCommentPullRequestReviewCommentPull_request, PullRequestReviewCommentSender } from "./PullRequestReviewComment";
 import { PushCommit, PushPusher, PushSender } from "./Push";
 import { ReleaseSender } from "./Release";
 import { Repository, RepositorySender } from "./Repository";
@@ -129,6 +129,7 @@ export interface GithubEvents {
   project: ProjectBody;
   public: PublicBody;
   pull_request: PullRequestBody;
+  pull_request_review: PullRequestReviewBody;
 
   /**
    * @description
@@ -143,7 +144,8 @@ export interface GithubEvents {
   LabelBody | MarketplacePurchaseBody | MemberBody | MembershipBody |
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
-  ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody;
+  ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
+  PullRequestReviewBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -947,4 +949,37 @@ export interface PullRequestBody extends Body
    * The [pull request](https://docs.github.com/en/rest/reference/pulls) itself.
    */
   pull_request: PullRequestPull_request;
+}
+
+export interface PullRequestReviewBody extends Body
+{
+  /**
+   * @description
+   * `submitted` - A pull request review is submitted into a non-pending state.
+
+  `edited` - The body of a review has been edited.
+
+  `dismissed` - A review has been dismissed.
+   */
+  action: "submitted" | "edited" | "dismissed";
+
+  /**
+   * @description
+   * The [pull request](https://docs.github.com/en/rest/reference/pulls) the review pertains to.
+   */
+  pull_request: PullRequestReviewCommentPullRequestReviewCommentPull_request;
+
+  /**
+   * @description
+   * The review that was affected.
+   */
+  review: PullRequestReviewReview;
+
+  /**
+   * @description
+   * The previous version of the body if the action was `edited`.
+   */
+  changes?: {
+    body: From;
+  }
 }
