@@ -132,6 +132,7 @@ export interface GithubEvents {
   pull_request_review_comment: PullRequestReviewCommentBody;
   push: PushBody;
   release: ReleaseBody;
+  repository_dispatch: RepositoryDispatchBody;
 
   /**
    * @description
@@ -149,6 +150,7 @@ export interface GithubEvents {
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody;
 }
+
 export interface Body extends SD, RP, ORG, INST {};
 
 /**
@@ -1057,3 +1059,13 @@ export interface ReleaseBody extends Body
    */
   release: ReleaseRelease;
 }
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch
+ * @description
+ * This event occurs when a GitHub App sends a POST request to the "[Create a repository dispatch event](https://docs.github.com/en/rest/reference/repos#create-a-repository-dispatch-event)" endpoint.
+ * 
+ * TODO Look into this @Tolfx
+ */
+export interface RepositoryDispatchBody {};
