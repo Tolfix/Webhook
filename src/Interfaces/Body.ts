@@ -120,6 +120,7 @@ export interface GithubEvents {
   page_build: PageBuildBody;
   ping: PingBody;
   project_card: ProjectCardBody;
+  project_column: ProjectColumnBody;
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -129,7 +130,8 @@ export interface GithubEvents {
   InstallationRepositoriesBody | IssueCommentBody | IssuesBody |
   LabelBody | MarketplacePurchaseBody | MemberBody | MembershipBody |
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
-  PackageBody | PageBuildBody | PingBody | ProjectCardBody;
+  PackageBody | PageBuildBody | PingBody | ProjectCardBody |
+  ProjectColumnBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -823,5 +825,37 @@ export interface ProjectCardBody extends Body
    * The id of the card that this card now follows if the action was "moved". Will be `null` if it is the first card in a column
    */
   after_id: number;
+  /**
+   * @description
+   * The [project card](https://docs.github.com/en/rest/reference/projects#cards) itself.
+   */
+  project_card: ProjectCardProject_card;
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#project_column
+ */
+export interface ProjectColumnBody extends Body
+{
+  action: "created" | "edited" | "moved" | "deleted";
+  /**
+   * @description
+   * The changes to the project column if the action was `edited`.
+   */
+  changes: {
+    name: {
+      from: string;
+    },
+  };
+  /**
+   * @description
+   * The id of the card that this card now follows if the action was "moved". Will be `null` if it is the first card in a column
+   */
+  after_id: number;
+  /**
+   * @description
+   * The [project column](https://docs.github.com/en/rest/reference/projects#columns) itself.
+   */
   project_card: ProjectCardProject_card;
 }
