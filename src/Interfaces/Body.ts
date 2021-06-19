@@ -144,6 +144,7 @@ export interface GithubEvents {
   status: StatusBody;
   team: TeamBody;
   team_add: TeamAddBody;
+  watch: WatchBody;
 
   /**
    * @description
@@ -162,7 +163,7 @@ export interface GithubEvents {
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
   SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody |
-  StatusBody | TeamBody | TeamAddBody;
+  StatusBody | TeamBody | TeamAddBody | WatchBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1305,4 +1306,9 @@ export interface TeamAddBody extends Body
    * The [team](https://docs.github.com/en/rest/reference/teams) that was modified. Note: Older events may not include this in the payload.
    */
   team: TeamTeam;
+}
+
+export interface WatchBody extends Body
+{
+  action: "started";
 }
