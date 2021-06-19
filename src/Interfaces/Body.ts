@@ -28,6 +28,7 @@ import { PullRequestReviewCommentPullRequestReviewCommentComment, PullRequestRev
 import { PushCommit, PushPusher, PushSender } from "./Push";
 import { ReleaseRelease, ReleaseSender } from "./Release";
 import { Repository, RepositorySender } from "./Repository";
+import { SecurityAdvisory } from "./SecurityAdvisory";
 import { StatusSender } from "./Status";
 import { Team, TeamSender } from "./Team";
 import { TeamAddSender } from "./TeamAdd";
@@ -137,6 +138,7 @@ export interface GithubEvents {
   repository_import: RepositoryImportBody;
   repository_vulnerability_alert: RepositoryVulnerabilityAlertBody;
   secret_scanning_alert: SecretScanningAlertBody;
+  security_advisory: SecurityAdvisoryBody;
 
   /**
    * @description
@@ -154,7 +156,7 @@ export interface GithubEvents {
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
-  SecretScanningAlertBody;
+  SecretScanningAlertBody | SecurityAdvisoryBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1165,4 +1167,10 @@ export interface SecretScanningAlertBody extends Body
    * 	If the action is resolved or reopened, the sender object will be the user that triggered the event. The sender object is empty for all other actions.
    */
   sender: Sender;
+}
+
+export interface SecurityAdvisoryBody
+{
+  action: "published" | "updated" | "performed";
+  security_advisory: SecurityAdvisory;
 }
