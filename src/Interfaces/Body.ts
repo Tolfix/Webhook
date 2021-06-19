@@ -26,7 +26,7 @@ import { PullRequestComment, PullRequestPull_request, PullRequestSender } from "
 import { PullRequestReview, PullRequestReviewComment, PullRequestReviewReview, PullRequestReviewSender } from "./PullRequestReview";
 import { PullRequestReviewCommentPullRequestReviewCommentComment, PullRequestReviewCommentPullRequestReviewCommentPull_request, PullRequestReviewCommentPullRequestReviewCommentSelf, PullRequestReviewCommentSender } from "./PullRequestReviewComment";
 import { PushCommit, PushPusher, PushSender } from "./Push";
-import { ReleaseSender } from "./Release";
+import { ReleaseRelease, ReleaseSender } from "./Release";
 import { Repository, RepositorySender } from "./Repository";
 import { StatusSender } from "./Status";
 import { Team, TeamSender } from "./Team";
@@ -131,7 +131,8 @@ export interface GithubEvents {
   pull_request_review: PullRequestReviewBody;
   pull_request_review_comment: PullRequestReviewCommentBody;
   push: PushBody;
-  
+  release: ReleaseBody;
+
   /**
    * @description
    * Everything you can wish for
@@ -146,7 +147,7 @@ export interface GithubEvents {
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
-  PullRequestReviewBody | PullRequestReviewCommentBody;
+  PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -1015,4 +1016,44 @@ export interface PushBody extends Body
   * The user who pushed the commits.
   */
   pusher: PushPusher
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#release
+ */
+export interface ReleaseBody extends Body
+{
+  /**
+   * @description
+   * `published`: a release, pre-release, or draft of a release is published
+
+  `unpublished`: a release or pre-release is deleted
+
+  `created`: a draft is saved, or a release or pre-release is published without previously being saved as a draft
+
+  `edited`: a release, pre-release, or draft release is edited
+
+  `deleted`: a release, pre-release, or draft release is deleted
+
+  `prereleased`: a pre-release is created
+
+  `released`: a release or draft of a release is published, or a pre-release is changed to a release
+   */
+  action: "published" | "unpublished" | "created" | "edited" | "deleted" | "prereleased" | "released";
+  
+  /**
+   * @description
+   * The previous version if the action was `edited`.
+   */
+  changes: {
+    body: From;
+    name: From;
+  };
+
+  /**
+   * @description
+   * The [release](https://docs.github.com/en/rest/reference/repos/#get-a-release) object.
+   */
+  release: ReleaseRelease;
 }
