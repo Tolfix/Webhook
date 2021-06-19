@@ -139,6 +139,7 @@ export interface GithubEvents {
   repository_vulnerability_alert: RepositoryVulnerabilityAlertBody;
   secret_scanning_alert: SecretScanningAlertBody;
   security_advisory: SecurityAdvisoryBody;
+  sponsorship: SponsorshipBody;
 
   /**
    * @description
@@ -156,7 +157,7 @@ export interface GithubEvents {
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
-  SecretScanningAlertBody | SecurityAdvisoryBody;
+  SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1169,8 +1170,41 @@ export interface SecretScanningAlertBody extends Body
   sender: Sender;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#security_advisory
+ */
 export interface SecurityAdvisoryBody
 {
   action: "published" | "updated" | "performed";
   security_advisory: SecurityAdvisory;
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#sponsorship
+ */
+export interface SponsorshipBody extends SD
+{
+  action: "created" | "cancelled" | "edited" | "tier_changed" | "pending_cancellation" | "pending_tier_change";
+  /**
+   * @description
+   * The `pending_cancellation` and `pending_tier_change` event types will include the date the cancellation or tier change will take effect.
+   */
+  effective_date: string;
+
+  changes: {
+    /**
+     * @description
+     * The `tier_changed` and `pending_tier_change` will include the original tier before the change or pending change. For more information, see the [pending tier change payload](https://docs.github.com/en/webhooks/event-payloads#webhook-payload-example-when-someone-downgrades-a-sponsorship).
+     */
+    tier: {
+      from: Object
+    };
+    /**
+     * @description
+     * The `edited` event types include the details about the change when someone edits a sponsorship to change the privacy.
+     */
+    privacy_level: From;
+  }
 }
