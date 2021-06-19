@@ -30,7 +30,7 @@ import { ReleaseRelease, ReleaseSender } from "./Release";
 import { Repository, RepositorySender } from "./Repository";
 import { SecurityAdvisory } from "./SecurityAdvisory";
 import { StatusSender } from "./Status";
-import { Team, TeamSender } from "./Team";
+import { Team, TeamSender, TeamTeam } from "./Team";
 import { TeamAddSender } from "./TeamAdd";
 import { WatchSender } from "./Watch";
 
@@ -142,6 +142,7 @@ export interface GithubEvents {
   sponsorship: SponsorshipBody;
   star: StarBody;
   status: StatusBody;
+  team: TeamBody;
 
   /**
    * @description
@@ -160,7 +161,7 @@ export interface GithubEvents {
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
   SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody |
-  StatusBody;
+  StatusBody | TeamBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1258,4 +1259,32 @@ export interface StatusBody extends Body
    * An array of branch objects containing the status' SHA. Each branch contains the given SHA, but the SHA may or may not be the head of the branch. The array includes a maximum of 10 branches.
    */
   branches: Array<any>
+}
+
+export interface TeamBody extends RP, ORG, SD
+{
+  action: "created" | "deleted" | "edited" | "added_to_repository" | "removed_from_repository";
+  /**
+   * @description
+   * The team itself.
+   */
+  team: TeamTeam;
+  /**
+   * @description
+   * The changes to the team if the action was `edited`.
+   */
+  changes: {
+    description: From;
+    name: From;
+    privacy: From;
+    repository: {
+      permissions: {
+        from: {
+          admin: Boolean;
+          pull: Boolean;
+          push: Boolean;
+        }
+      }
+    }
+  }
 }
