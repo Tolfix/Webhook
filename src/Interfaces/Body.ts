@@ -140,6 +140,7 @@ export interface GithubEvents {
   secret_scanning_alert: SecretScanningAlertBody;
   security_advisory: SecurityAdvisoryBody;
   sponsorship: SponsorshipBody;
+  star: StarBody;
 
   /**
    * @description
@@ -157,7 +158,7 @@ export interface GithubEvents {
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
   PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
   RepositoryBody | RepositoryImportBody | RepositoryVulnerabilityAlertBody |
-  SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody;
+  SecretScanningAlertBody | SecurityAdvisoryBody | SponsorshipBody | StarBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1207,4 +1208,14 @@ export interface SponsorshipBody extends SD
      */
     privacy_level: From;
   }
+}
+
+export interface StarBody extends RP, ORG, SD
+{
+  action: "created" | "deleted";
+  /**
+   * @description
+   * 	The time the star was created. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Will be `null` for the `deleted` action.
+   */
+  starred_at: string;
 }
