@@ -122,6 +122,7 @@ export interface GithubEvents {
   project_card: ProjectCardBody;
   project_column: ProjectColumnBody;
   project: ProjectBody;
+  public: PublicBody;
 
   everything: PushBody | ForkBody | CheckRunBody |
   CheckSuiteBody | CodeScanningAlertBody | CommitCommetBody |
@@ -132,7 +133,7 @@ export interface GithubEvents {
   LabelBody | MarketplacePurchaseBody | MemberBody | MembershipBody |
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
-  ProjectColumnBody | ProjectBody;
+  ProjectColumnBody | ProjectBody | PublicBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
 
@@ -886,3 +887,11 @@ export interface ProjectBody extends Body
    */
   project: ProjectCardProject_card
 }
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#public
+ * @description
+ * When a private repository is made public. Without a doubt: the best GitHub event.
+ */
+export interface PublicBody extends Body {};
