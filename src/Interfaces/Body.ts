@@ -133,6 +133,7 @@ export interface GithubEvents {
   push: PushBody;
   release: ReleaseBody;
   repository_dispatch: RepositoryDispatchBody;
+  repository: RepositoryBody;
 
   /**
    * @description
@@ -148,7 +149,8 @@ export interface GithubEvents {
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
-  PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody;
+  PullRequestReviewBody | PullRequestReviewCommentBody | ReleaseBody | 
+  RepositoryBody;
 }
 
 export interface Body extends SD, RP, ORG, INST {};
@@ -1069,3 +1071,40 @@ export interface ReleaseBody extends Body
  * TODO Look into this @Tolfx
  */
 export interface RepositoryDispatchBody {};
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository
+ */
+export interface RepositoryBody extends Body
+{
+  /**
+   * @description
+   * `created` - A repository is created.
+
+  `deleted` - A repository is deleted.
+
+  `archived` - A repository is archived.
+
+  `unarchived` - A repository is unarchived.
+
+  `edited` - A repository's information is edited.
+
+  `renamed` - A repository is renamed.
+
+  `transferred` - A repository is transferred.
+
+  `publicized` - A repository is made public.
+
+  `privatized` - A repository is made private.
+   */
+  action: "created" |
+  "deleted" |
+  "archived" |
+  "unarchived" |
+  "edited" |
+  "renamed" |
+  "transferred" |
+  "publicized" |
+  "privatized"
+}
