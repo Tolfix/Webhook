@@ -22,9 +22,9 @@ import { ProjectSender } from "./Project";
 import { ProjectCard, ProjectCardProject_card, ProjectCardSender } from "./ProjectCard";
 import { ProjectColumnSender } from "./ProjectColumn";
 import { PublicSender } from "./Public";
-import { PullRequestPull_request, PullRequestSender } from "./PullRequest";
-import { PullRequestReview, PullRequestReviewReview, PullRequestReviewSender } from "./PullRequestReview";
-import { PullRequestReviewCommentPullRequestReviewCommentPull_request, PullRequestReviewCommentSender } from "./PullRequestReviewComment";
+import { PullRequestComment, PullRequestPull_request, PullRequestSender } from "./PullRequest";
+import { PullRequestReview, PullRequestReviewComment, PullRequestReviewReview, PullRequestReviewSender } from "./PullRequestReview";
+import { PullRequestReviewCommentPullRequestReviewCommentComment, PullRequestReviewCommentPullRequestReviewCommentPull_request, PullRequestReviewCommentPullRequestReviewCommentSelf, PullRequestReviewCommentSender } from "./PullRequestReviewComment";
 import { PushCommit, PushPusher, PushSender } from "./Push";
 import { ReleaseSender } from "./Release";
 import { Repository, RepositorySender } from "./Repository";
@@ -94,7 +94,6 @@ export interface INST
   installation: Installation;
 }
 export interface GithubEvents {
-  push: PushBody;
   check_run: CheckRunBody;
   check_suite: CheckSuiteBody;
   code_scanning_alert: CodeScanningAlertBody;
@@ -130,7 +129,9 @@ export interface GithubEvents {
   public: PublicBody;
   pull_request: PullRequestBody;
   pull_request_review: PullRequestReviewBody;
-
+  pull_request_review_comment: PullRequestReviewCommentBody;
+  push: PushBody;
+  
   /**
    * @description
    * Everything you can wish for
@@ -145,42 +146,9 @@ export interface GithubEvents {
   MetaBody | MilestoneBody | OrganizationBody | OrgBlockBody|
   PackageBody | PageBuildBody | PingBody | ProjectCardBody |
   ProjectColumnBody | ProjectBody | PublicBody | PullRequestBody |
-  PullRequestReviewBody;
+  PullRequestReviewBody | PullRequestReviewCommentBody;
 }
 export interface Body extends SD, RP, ORG, INST {};
-
-/**
- * @link
- * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push
- */
-export interface PushBody extends Body
-{
-  /**
-   * @description
-   * The full git ref that was pushed. Example: `refs/heads/main`.
-   */
-  ref: string;
-  /**
-   * @description
-   * The SHA of the most recent commit on `ref` before the push.
-   */
-  before: string;
-  /**
-   * @description
-   * The SHA of the most recent commit on `ref` after the push.
-   */
-  after: string;
-  /**
-   * @description
-   * An array of commit objects describing the pushed commits. (The array includes a maximum of 20 commits. If necessary, you can use the Commits API to fetch additional commits. This limit is applied to timeline events only and isn't applied to webhook deliveries.)
-   */
-  commits: Array<PushCommit>
-  /**
-   * @description
-   * The user who pushed the commits.
-   */
-  pusher: PushPusher
-}
 
 /**
  * @link
@@ -951,6 +919,10 @@ export interface PullRequestBody extends Body
   pull_request: PullRequestPull_request;
 }
 
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request_review
+ */
 export interface PullRequestReviewBody extends Body
 {
   /**
@@ -982,4 +954,65 @@ export interface PullRequestReviewBody extends Body
   changes?: {
     body: From;
   }
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request_review_comment
+ */
+export interface PullRequestReviewCommentBody extends Body
+{
+  action: "created" | "edited" | "deleted";
+  /**
+   * @description
+   * The changes to the comment if the action was `edited`.
+   */
+  changes: {
+    body: From;
+  };
+
+  /**
+   * @description
+   * The [pull request](https://docs.github.com/en/rest/reference/pulls) itself.
+   */
+   pull_request: PullRequestPull_request;
+
+   /**
+    * @description
+    * The [comment](https://docs.github.com/en/rest/reference/pulls#comments) itself.
+    */
+   comment: PullRequestReviewCommentPullRequestReviewCommentComment;
+}
+
+/**
+ * @link
+ * https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push
+ */
+export interface PushBody extends Body
+{
+  /**
+  * @description
+  * The full git ref that was pushed. Example: `refs/heads/main`.
+  */
+  ref: string;
+  /**
+  * @description
+  * The SHA of the most recent commit on `ref` before the push.
+  */
+  before: string;
+  /**
+  * @description
+  * The SHA of the most recent commit on `ref` after the push.
+  */
+  after: string;
+  /**
+  * @description
+  * An array of commit objects describing the pushed commits. (The array includes a maximum of 20 commits. If necessary, you can use the Commits API to fetch additional commits. This limit is applied to timeline events only and isn't applied to webhook deliveries.)
+  */
+  commits: Array<PushCommit>
+  /**
+  * @description
+  * The user who pushed the commits.
+  */
+  pusher: PushPusher
 }
