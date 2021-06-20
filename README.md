@@ -1,4 +1,6 @@
 # Simple Webhook Github
+![](https://nodei.co/npm/simple-webhook-github.svg)
+
 This package is used to spin up a webserver to get `POST` requests from github webhook.
 
 # Installing
