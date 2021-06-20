@@ -92,3 +92,19 @@ interface Options
 ```ts
 SimpleWebhook(Port or Express, Config)
 ```
+
+# On event
+
+The on event includes events that can happen in the webhook, like errors etc.
+
+`Typescript`
+```ts
+import SimpleWebhook from "simple-webhook-github";
+
+const Port = 3000;
+const webhook = new SimpleWebhook(Port);
+
+webhook.on("error", (error) => {
+    console.log(error);
+})
+```

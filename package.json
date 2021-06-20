@@ -1,6 +1,6 @@
 {
   "name": "simple-webhook-github",
-  "version": "1.3.8",
+  "version": "1.3.9",
   "description": "A simple webhook for github",
   "main": "lib/Main.js",
   "types": "lib/Main.d.ts",
@@ -17,7 +17,8 @@
   },
   "keywords": [
     "webhook",
-    "github webhook"
+    "github webhook",
+    "express"
   ],
   "author": "Tolfx",
   "license": "ISC",
