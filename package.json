@@ -1,6 +1,6 @@
 {
   "name": "simple-webhook-github",
-  "version": "1.3.9",
+  "version": "1.4.0",
   "description": "A simple webhook for github",
   "main": "lib/Main.js",
   "types": "lib/Main.d.ts",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tolfix/Webhook.git"
+    "url": "git+https://github.com/Tolfix/simple-webhook-github.git"
   },
   "keywords": [
     "webhook",
@@ -23,9 +23,9 @@
   "author": "Tolfx",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Tolfix/Webhook/issues"
+    "url": "https://github.com/Tolfix/simple-webhook-github/issues"
   },
-  "homepage": "https://github.com/Tolfix/Webhook#readme",
+  "homepage": "https://github.com/Tolfix/simple-webhook-github#readme",
   "dependencies": {
     "express": "^4.17.1"
   },

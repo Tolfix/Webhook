@@ -24,7 +24,7 @@ webhook.listen("everything", response => {
 
 `JavaScript`
 ```js
-const SimpleWebhook = require("simple-webhook-github");
+const SimpleWebhook = require("simple-webhook-github").default;
 
 const Port = 3000;
 const webhook = new SimpleWebhook(Port);
@@ -56,7 +56,7 @@ app.listen(Port);
 
 `JavaScript`
 ```js
-const SimpleWebhook = require("simple-webhook-github");
+const SimpleWebhook = require("simple-webhook-github").default;
 const Express = require("express");
 
 const Port = 3000;
