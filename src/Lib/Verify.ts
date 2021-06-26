@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from "express"
 import crypto from "crypto";
 
 export function sign(data: any, secret: string) 

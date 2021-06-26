@@ -1,9 +1,9 @@
 import Express from "express"
 import { Application } from "express";
-import { Body, GithubEvents } from "./Interfaces/Body";
+import { GithubEvents } from "./Interfaces/Body";
 import Options from "./Interfaces/Options";
 import event from "events";
-import { verify } from "./Lib/Veryify";
+import { verify } from "./Lib/Verify";
 import { OnEvents } from "./Interfaces/On";
 
 /**
@@ -112,4 +112,4 @@ export default class SimpleWebhook<P extends Application | number>
                 return response(data);
         });
     }
-}
+};
