@@ -1,12 +1,11 @@
 {
   "name": "simple-webhook-github",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A simple webhook for github",
   "main": "lib/Main.js",
   "types": "lib/Main.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
-    "build": "tsc",
     "prepare": "npm run build",
     "version": "git add -A src",
     "postversion": "git push && git push --tags"
