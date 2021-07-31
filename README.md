@@ -1,3 +1,9 @@
+<p align="center">
+  <img width="260" src="https://cdn.tolfix.com/images/TX-Small.png">
+  <br/>
+  Simple webhook github
+</p>
+
 # Simple Webhook Github
 ![](https://nodei.co/npm/simple-webhook-github.svg)
 
@@ -110,3 +116,6 @@ webhook.on("error", (error) => {
     console.log(error);
 })
 ```
+
+# Discord
+[![Discord](https://discord.com/api/guilds/833438897484595230/widget.png?style=banner4)](https://discord.gg/xHde7g93Yh)
