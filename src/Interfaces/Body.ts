@@ -1201,6 +1201,24 @@ export interface SponsorshipBody extends SD
    */
   effective_date: string;
 
+  sponsorship: {
+    node_id: string;
+    created_at: string;
+    sponsorable: Sender;
+    sponsor: Sender;
+    privacy_level: string;
+    tier: {
+      node_id: string;
+      created_at: string;
+      description: string;
+      monthly_price_in_cents: number;
+      monthly_price_in_dollars: number;
+      name: string;
+      is_one_time: Boolean;
+      is_custom_amount: Boolean;
+    }
+  };
+
   changes: {
     /**
      * @description
