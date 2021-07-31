@@ -1048,6 +1048,23 @@ export interface SponsorshipBody extends SD {
      * The `pending_cancellation` and `pending_tier_change` event types will include the date the cancellation or tier change will take effect.
      */
     effective_date: string;
+    sponsorship: {
+        node_id: string;
+        created_at: string;
+        sponsorable: Sender;
+        sponsor: Sender;
+        privacy_level: string;
+        tier: {
+            node_id: string;
+            created_at: string;
+            description: string;
+            monthly_price_in_cents: number;
+            monthly_price_in_dollars: number;
+            name: string;
+            is_one_time: Boolean;
+            is_custom_amount: Boolean;
+        };
+    };
     changes: {
         /**
          * @description
